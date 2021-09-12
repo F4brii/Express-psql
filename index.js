@@ -11,11 +11,12 @@ app.use(
     })
 );
 
+app.use(require('./src/routes/persons'));
+
 app.get('/', (request, response) => {
     response.json({ info: 'Node.js, Express, and Postgres API' })
 });
 
-app.get('/persons', db.getUsers);
 app.get('/persons/:dni', db.getUserByDni);
 app.delete('/persons/:dni', db.deletePerson);
 
