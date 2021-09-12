@@ -16,6 +16,30 @@ const getPersons = (req, res) => {
     })
 };
 
+const getUserByDni = (request, response) => {
+    const dni = parseInt(request.params.dni)
+
+    pool.query('SELECT * FROM personas WHERE dni = $1', [dni], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+const deletePerson = (request, response) => {
+    const dni = parseInt(request.params.dni)
+
+    pool.query('DELETE FROM personas WHERE dni = $1', [dni], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).send(`Person deleted with DNI: ${dni}`)
+    })
+}
+
 module.exports = {
-    getPersons
+    getPersons,
+    getUserByDni,
+    deletePerson
 };
