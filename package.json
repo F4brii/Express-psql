@@ -18,8 +18,12 @@
     },
     "homepage": "https://github.com/F4brii/Express-psql#readme",
     "dependencies": {
+        "cors": "^2.8.5",
         "express": "^4.17.1",
-        "pg": "^8.7.1"
+        "pg": "^8.7.1",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.6.5",
+        "tcomb": "^3.2.29"
     },
     "devDependencies": {
         "nodemon": "^2.0.12"

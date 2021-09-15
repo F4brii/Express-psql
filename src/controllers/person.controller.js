@@ -1,45 +1,49 @@
-const Pool = require('pg').Pool
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'express',
-    password: 'Assemblix86*',
-    port: 5432,
-});
+const database = require('../database/database');
+const Person = database.persons;
+const OP = database.Sequelize.Op;
 
-const getPersons = (req, res) => {
-    pool.query('SELECT * FROM personas', (error, results) => {
-        if (error) {
-            throw error
+exports.findAll = (req, res) => {
+    const dni = '';
+    var condition = dni ? {
+        dni: {
+            [Op.like]: `%${dni}%`
         }
-        res.status(200).json(results.rows)
-    })
+    } : null;
+
+    Person.findAll({ where: condition })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while retrieving tutorials."
+            });
+        });
 };
 
-const getUserByDni = (request, response) => {
-    const dni = parseInt(request.params.dni)
+exports.create = (req, res) => {
+    // Validate request
+    if (!req.body.dni || !req.body.name) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+        return;
+    }
 
-    pool.query('SELECT * FROM personas WHERE dni = $1', [dni], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
-    })
-}
+    // Create a Tutorial
+    const person = {
+        dni: req.body.dni,
+        name: req.body.name
+    };
 
-const deletePerson = (request, response) => {
-    const dni = parseInt(request.params.dni)
-
-    pool.query('DELETE FROM personas WHERE dni = $1', [dni], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).send(`Person deleted with DNI: ${dni}`)
-    })
-}
-
-module.exports = {
-    getPersons,
-    getUserByDni,
-    deletePerson
+    // Save Tutorial in the database
+    Person.create(person)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || "Some error occurred while creating the Tutorial."
+            });
+        });
 };
