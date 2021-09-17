@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const personController = require('../controllers/person.controller');
+const personRepository = require('../domain/repositories/person.repository');
 const router = Router();
 
-router.get('/persons', personController.findAll);
-router.post('/persons', personController.create);
+router.get('/persons', personRepository.findAll);
+router.post('/persons', personRepository.create);
 
 module.exports = router;

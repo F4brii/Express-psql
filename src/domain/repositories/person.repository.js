@@ -1,4 +1,4 @@
-const database = require('../database/database');
+const database = require('../../database/database');
 const Person = database.persons;
 const OP = database.Sequelize.Op;
 

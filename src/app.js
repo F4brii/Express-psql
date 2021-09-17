@@ -3,7 +3,7 @@ const db = require('./database/database');
 const routerPerson = require('./routers/person.router');
 
 // sync database
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     console.log("Drop and re-sync db.");
 });
 
