@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  app-deploy
+  labels:
+    app: app
+    type: back-end
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      type: back-end
+      app: app
+  template:
+    metadata:
+      name:  app-pod
+      labels:
+        app: app
+        type: back-end
+
+    spec:
+      containers:
+        - name:  nginx-container
+          image:  nginx
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  app-service
+spec:
+  selector:
+    app:  app
+  type:  NodePort
+  ports:
+  - targetPort:  8080
+    port:  80
+    nodePort: 30200
+    
+
+          
