@@ -3,11 +3,7 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                sh 'echo "Construyendo la Aplicación"'
-		     sh '''
-                echo "Pasos múltiples de shell también funcionan"
-			    pwd
-             '''
+                sh 'docker-compose build'
             }
         }
         stage('Test') { 
@@ -17,7 +13,7 @@ pipeline {
         }
         stage('Deploy') { 
             steps {
-                echo 'Desplegando al área de desarrollo' 
+                sh 'docker-compose up' 
             }
         }
     }
